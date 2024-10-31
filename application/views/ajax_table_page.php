@@ -1,0 +1,82 @@
+<?php if($table == 1)
+{
+?>
+{
+"data": [
+
+<?php 
+$qnt = count($lista);
+$i = 0;
+
+foreach ($lista as $ogg) :
+$i += 1;
+if ($ogg['status'] == 1) {
+    $style = $impostazioni[0]['colore1'];
+    $stato_text = $this->lang->line('incorso');
+} elseif ($ogg['status'] == 2) {
+    $style = $impostazioni[0]['colore2'];
+    $stato_text = $this->lang->line('daconsegnare');
+} elseif ($ogg['status'] == 3) {
+    $style = $impostazioni[0]['colore3'];
+    $stato_text = $this->lang->line('inattesa');
+} elseif ($ogg['status'] == 0) {
+    $style = $impostazioni[0]['colore4'];
+    $stato_text = $this->lang->line('completato');
+} else {
+    $style = $impostazioni[0]['colore5'];
+    $stato_text = $this->lang->line('nonriparato');
+}
+?>
+
+	{
+	"id": <?= $ogg['ID']; ?>,
+    "stato": "<span class='label label-mini' style='background: <?= $style; ?>;'><?= $stato_text; ?></span>",
+"cliente": "<a class='visualizza' data-dismiss='modal' href='#visualizza_clienti' data-toggle='modal' data-num='<?=  $ogg['ID_Nominativo']; ?>'><?=  $ogg['Nominativo']; ?></a>",
+	"tipo": "<?php if ($ogg['Tipo'] == 1) {
+    echo $this->lang->line('js_tipo_ordine_pezzo');
+} else {
+        echo $this->lang->line('js_tipo_riparazione');
+    } ?>",
+	"modello": "<?= $ogg['Modello']; ?>",
+	"guasto": "<?= $ogg['Guasto']; ?>",
+	"data": "<?= date('d/m/Y', strtotime($ogg['dataApertura'])); ?>",
+	"telefono": "<?= $ogg['Telefono']; ?>",
+	"code": "<?= $ogg['codice']; ?>",
+"azioni": "<a data-dismiss='modal' class='visualizza_or' href='#visualizza_ordini' data-toggle='modal' data-num='<?= $ogg['ID']; ?>'><button class='btn btn-success btn-xs'><i class='fa fa-check'></i></button></a><a  data-dismiss='modal' id='modifica' href='#obj' data-toggle='modal' data-num='<?= $ogg['ID']; ?>'><button class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button></a><a id='elimina' data-num='<?= $ogg['ID']; ?>' data-tipo='<?= $ogg['Tipo']; ?>'><button class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></button></a>"
+	}<?php if ($i < $qnt) {
+    echo ',';
+} ?>
+<?php endforeach; ?>
+]
+}
+<?php } else {  
+// INIZIO TABELLA CLIENTI //?>
+
+{
+"data": [
+
+<?php 
+    $qnt = count($lista);
+    $i = 0;
+    foreach ($lista as $ogg) :
+    $i += 1;
+?>
+
+{
+"nome": "<?=$ogg['nome']; ?>",
+"cognome": "<?=$ogg['cognome']; ?>",
+"indirizzo": "<?=$ogg['indirizzo']; ?>",
+"email": "<?= $ogg['email']; ?>",
+"telefono": "<?= $ogg['telefono']; ?>",
+"azioni": "<a  data-dismiss='modal' class='visualizza' href='#visualizza_clienti' data-toggle='modal' data-num='<?= $ogg['id']; ?>'><button class='btn btn-success btn-xs'><i class='fa fa-check'></i></button></a><a  data-dismiss='modal' id='modifica_c' href='#clientimodal' data-toggle='modal' data-num='<?= $ogg['id']; ?>'><button class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button></a><a id='elimina_c' data-num='<?= $ogg['id']; ?>'><button class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></button></a>"
+}<?php if ($i < $qnt) {
+                  echo ',';
+              } ?>
+<?php endforeach; ?>
+]
+}
+
+
+
+
+<?php } ?>
